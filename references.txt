@@ -1,0 +1,2 @@
+https://medium.com/@ivywalobwa/use-google-translation-api-in-your-angular-app-d55096bbbe67
+https://rapidapi.com/googlecloud/api/google-translate1
