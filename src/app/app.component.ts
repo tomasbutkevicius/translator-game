@@ -13,7 +13,7 @@ import { GoogleObj } from './models/solution';
 })
 export class AppComponent implements OnInit {
   private translateBtn: any;
-  constructor(private google: GoogletranslateService){};
+  constructor(){};
 
   listLanguages: Languages[];
 
@@ -26,34 +26,37 @@ export class AppComponent implements OnInit {
     this.translateBtn = document.getElementById('translatebtn');
   }
 
-  send() {
-    const googleObj: GoogleObj = {
-        q: ['hello'],
-        target: 'es'
-     };
+//        NOT WORKING API
 
-      this.translateBtn.disabled = true;
+  // sendTwo() {
+  //   const googleObj: GoogleObj = {
+  //       q: ['hello'],
+  //       target: 'es'
+  //    };
 
-      this.google.translate(googleObj).subscribe(
-          (res: any) => {
-          this.translateBtn.disabled = false;
-          console.log(res.data.translations[0].translatedText)
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    }
+  //     this.translateBtn.disabled = true;
 
-    sendTwo(){
-      var data = "source=en&q=Hello%2C%20world!&target=es";
+  //     this.google.translate(googleObj).subscribe(
+  //         (res: any) => {
+  //         this.translateBtn.disabled = false;
+  //         console.log(res.data.translations[0].translatedText)
+  //         },
+  //         err => {
+  //           console.log(err);
+  //         }
+  //       );
+  //   }
 
+
+//         WORKING API
+    send(){
+      var data = "source=en&q=";
+      data += this.typedText + "!&target=es";
       var xhr = new XMLHttpRequest();
       xhr.withCredentials = true;
 
       xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
-          //YAS THIS WORKS
           console.log(this.responseText);
         }
       });
@@ -63,7 +66,6 @@ export class AppComponent implements OnInit {
       xhr.setRequestHeader("x-rapidapi-key", "e65f15be4dmshce0042b5b438a1cp1fc179jsnf947a075aee4");
       // xhr.setRequestHeader("accept-encoding", "application/gzip");
       xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-
       xhr.send(data);
     }
     
