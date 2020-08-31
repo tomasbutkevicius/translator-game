@@ -1,2 +1,3 @@
 https://medium.com/@ivywalobwa/use-google-translation-api-in-your-angular-app-d55096bbbe67
 https://rapidapi.com/googlecloud/api/google-translate1
+https://medium.com/javascript-in-plain-english/comparing-different-ways-to-make-http-requests-in-javascript-39ab0f090788
