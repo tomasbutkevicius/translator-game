@@ -80,17 +80,21 @@ export class AppComponent implements OnInit {
 
 //         WORKING API
 
-    send(){
+
+    send(callback){
       var data = "source=en&q=";
       data += this.typedText + "!&target=es";
       var xhr = new XMLHttpRequest();
       xhr.withCredentials = true;
 
+      var translatedTextResponse = '';
       xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
-          console.log(this.responseText);
+          callback(this.response);
         }
       });
+      console.log(translatedTextResponse);
+      this.translatedText = translatedTextResponse;
 
       xhr.open("POST", "https://google-translate1.p.rapidapi.com/language/translate/v2");
       xhr.setRequestHeader("x-rapidapi-host", "google-translate1.p.rapidapi.com");
@@ -100,5 +104,7 @@ export class AppComponent implements OnInit {
       xhr.send(data);
 
     }
-
+    callback(value: string){
+      console.log(value);
+    }
 }

@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "translate-game"
+    }
+  },
+  "defaultProject": "translate-game",
+  "cli": {
+    "analytics": false
+  }
 }
