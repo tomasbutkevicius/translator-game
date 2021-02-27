@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { lorem } from 'faker';
-import { freeApiService } from './services/freeapi.service';
 
 import {Languages} from './classes/languages';
-import { GoogletranslateService } from './services/googletranslate.service';
-import { GoogleObj } from './models/solution';
+import { TranslateService } from './translate.service';
 
 @Component({
   selector: 'app-root',
@@ -13,47 +11,22 @@ import { GoogleObj } from './models/solution';
 })
 export class AppComponent implements OnInit {
   private translateBtn: any;
+  private translateService: TranslateService;
+
   constructor(){};
 
   listLanguages: Languages[];
 
   ngOnInit(){
-    // this.freeApiService.getComments().subscribe(
-    //   data=>{
-    //     this.listLanguages = data.languages;
-    //   }
-    // );
+    this.translateService = new TranslateService();
     this.translateBtn = document.getElementById('translatebtn');
   }
-
-//        NOT WORKING API
-
-  // sendTwo() {
-  //   const googleObj: GoogleObj = {
-  //       q: ['hello'],
-  //       target: 'es'
-  //    };
-
-  //     this.translateBtn.disabled = true;
-
-  //     this.google.translate(googleObj).subscribe(
-  //         (res: any) => {
-  //         this.translateBtn.disabled = false;
-  //         console.log(res.data.translations[0].translatedText)
-  //         },
-  //         err => {
-  //           console.log(err);
-  //         }
-  //       );
-  //   }
-
 
 
     
   randomText = lorem.sentence();
   typedText = '';
   translatedText = '';
-
   title = 'translateGame';
 
   onInput(value: string){
@@ -77,34 +50,11 @@ export class AppComponent implements OnInit {
     window.location.reload();
   }
 
-
-//         WORKING API
-
-
-    send(callback){
-      var data = "source=en&q=";
-      data += this.typedText + "!&target=es";
-      var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
-
-      var translatedTextResponse = '';
-      xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-          callback(this.response);
-        }
-      });
-      console.log(translatedTextResponse);
-      this.translatedText = translatedTextResponse;
-
-      xhr.open("POST", "https://google-translate1.p.rapidapi.com/language/translate/v2");
-      xhr.setRequestHeader("x-rapidapi-host", "google-translate1.p.rapidapi.com");
-      xhr.setRequestHeader("x-rapidapi-key", "e65f15be4dmshce0042b5b438a1cp1fc179jsnf947a075aee4");
-      // xhr.setRequestHeader("accept-encoding", "application/gzip");
-      xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-      xhr.send(data);
-
+    translate(){
+      this.translateService.translate(this.typedText, this.handleTranslate);
     }
-    callback(value: string){
-      console.log(value);
+
+    handleTranslate(jsonResponse: JSON){
+      console.log(jsonResponse["data"]);
     }
 }
