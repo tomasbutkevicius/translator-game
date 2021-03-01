@@ -1,0 +1,18 @@
+{
+    "/getQuoteEn": {
+      "target": "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/getQuoteEn": ""
+      }
+    },
+    "/getQuoteRu": {
+        "target": "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=ru",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/getQuoteRu": ""
+        }
+      }
+}

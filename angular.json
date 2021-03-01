@@ -63,7 +63,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "translate-game:build"
+            "browserTarget": "translate-game:build",
+            "proxyConfig": "./proxy.conf.json"
           },
           "configurations": {
             "production": {

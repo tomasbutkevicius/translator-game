@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { lorem } from 'faker';
+import { from } from 'rxjs';
 
 import {Languages} from './classes/languages';
-import { TranslateService } from './translate.service';
+import { TranslateService } from './services/translate.service';
+import {QuoteService} from './services/quote-service.service';
 
 @Component({
   selector: 'app-root',
@@ -12,22 +14,29 @@ import { TranslateService } from './translate.service';
 export class AppComponent implements OnInit {
   private translateBtn: any;
   private translateService: TranslateService;
+  
 
-  constructor(){};
+  constructor(private quoteService: QuoteService){};
 
   listLanguages: Languages[];
+  randomText = '';
 
   ngOnInit(){
     this.translateService = new TranslateService();
     this.translateBtn = document.getElementById('translatebtn');
+    this.getQuotes();
   }
-
-
     
-  randomText = lorem.sentence();
   typedText = '';
   translatedText = '';
   title = 'translateGame';
+
+  getQuotes(): void {
+    this.quoteService.getText("en")
+    .subscribe((data) => {
+      this.randomText = data["quoteText"];
+    });
+  }
 
   onInput(value: string){
     this.typedText = value;
