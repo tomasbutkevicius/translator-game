@@ -17,10 +17,10 @@ import { environment } from '../../environments/environment';
 export class TranslateService {
   constructor(private http: HttpClient) { }
 
-  translate(text: string) {
+  translate(text: string, source: string, target: string) {
     var data = "q=" + text + "&";
-    var data = data + "source=ru&";
-    data = data + "!&target=lt";
+    var data = data + "source=" + source + "&";
+    data = data + "!&target=" + target;
     return this.http.post("https://google-translate1.p.rapidapi.com/language/translate/v2 ", data, httpOptions);
   } 
 

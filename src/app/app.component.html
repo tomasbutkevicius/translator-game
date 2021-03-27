@@ -6,7 +6,7 @@
         <h1 class="title has-text-centered">Translate Challange</h1>
 
         <p class="has-text-centered" >
-          <span [class]="compare(randomText,typedText)">{{ randomText }}</span>
+          <span [class]="compare()">{{ randomText }}</span>
         </p>
 
         <div class="field">
@@ -22,6 +22,7 @@
   </div>
   
  <p> {{randomTextTranslated}} </p>
+ <p> {{similarity(randomTextTranslated, typedText)}} </p>
  <!-- <table>
    <tr>
      <th>Id</th>
