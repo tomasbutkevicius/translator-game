@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { lorem } from 'faker';
 import { from } from 'rxjs';
-
-import {Languages} from './classes/languages';
+import { Observable } from 'rxjs';
+import { Languages } from './classes/languages';
 import { TranslateService } from './services/translate.service';
-import {QuoteService} from './services/quote-service.service';
+import { QuoteService } from './services/quote-service.service';
+import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 
 @Component({
   selector: 'app-root',
@@ -13,41 +14,40 @@ import {QuoteService} from './services/quote-service.service';
 })
 export class AppComponent implements OnInit {
   private translateBtn: any;
-  private translateService: TranslateService;
-  
 
-  constructor(private quoteService: QuoteService){};
+  constructor(private quoteService: QuoteService, private translateService: TranslateService) { };
 
   listLanguages: Languages[];
   randomText = '';
-
-  ngOnInit(){
-    this.translateService = new TranslateService();
-    this.translateBtn = document.getElementById('translatebtn');
-    this.getQuotes();
-  }
-    
   typedText = '';
-  translatedText = '';
+  randomTextTranslated = '';
+  randomTextLanguage = "ru";
   title = 'translateGame';
 
-  getQuotes(): void {
-    this.quoteService.getText("en")
-    .subscribe((data) => {
-      this.randomText = data["quoteText"];
-    });
+
+  ngOnInit() {
+    this.translateBtn = document.getElementById('translatebtn');
+    this.getRandomText();
   }
 
-  onInput(value: string){
+  getRandomText(): void {
+    this.quoteService.getText()
+      .subscribe((data) => {
+        this.randomText = data["quoteText"];
+        this.translateRandomText();
+      });
+  }
+
+  onInput(value: string) {
     this.typedText = value;
   }
 
-  compare(randomLetter: string, enteredLetter: string){
-    if(!enteredLetter){
+  compare(randomLetter: string, enteredLetter: string) {
+    if (!enteredLetter) {
       return 'pending';
     }
 
-    if(enteredLetter === randomLetter){
+    if (enteredLetter === randomLetter) {
       return 'correct';
     }
 
@@ -55,15 +55,27 @@ export class AppComponent implements OnInit {
 
   }
 
-  exit(){
+  exit() {
     window.location.reload();
   }
 
-    translate(){
-      this.translateService.translate(this.typedText, this.handleTranslate);
-    }
+  translateRandomText() {
+    this.translateService.translate(this.randomText)
+    .subscribe((data) => {
+      this.randomTextTranslated = data["data"]["translations"][0]["translatedText"];
+    },
+    err => {
+      this.randomText = "Никто не может грустить, когда у него есть воздушный шарик.";
+      this.randomTextTranslated = "No one can be sad when they have a balloon.";
+      console.log(err);
+    });
+  }
 
-    handleTranslate(jsonResponse: JSON){
-      console.log(jsonResponse["data"]);
-    }
+  // translateTypedText() {
+  //   this.translateService.translate(this.typedText, this.handleTranslate);
+  // }
+
+  handleTranslate(jsonResponse: JSON) {
+    console.log(jsonResponse["data"]["translations"]);
+  }
 }

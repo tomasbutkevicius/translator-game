@@ -14,5 +14,13 @@
         "pathRewrite": {
           "^/getQuoteRu": ""
         }
+      },
+      "/translate": {
+        "target": "https://google-translate1.p.rapidapi.com/language/translate/v2",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/translate": ""
+        }
       }
 }

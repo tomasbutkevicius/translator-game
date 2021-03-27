@@ -13,7 +13,7 @@ export class QuoteService {
   // private quoteApiUrl = "http://api.forismatic.com/api/1.0/?method=getQuote&lang=en";
   private quoteApiUrl = environment.api + "/getQuoteRu";
 
-  getText(language: string){
+  getText(){
     let headers = new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
       return this.http.get<String>(this.quoteApiUrl, {headers: headers});
