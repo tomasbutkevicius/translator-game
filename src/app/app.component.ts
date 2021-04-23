@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { lorem } from 'faker';
 import { from } from 'rxjs';
 import { Observable } from 'rxjs';
-import { Languages } from './classes/languages';
+import { Language } from './models/language';
 import { TranslateService } from './services/translate.service';
 import { QuoteService } from './services/quote-service.service';
 import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
   constructor(private quoteService: QuoteService, private translateService: TranslateService) { };
 
-  listLanguages: Languages[];
+  listLanguages: Language[];
   randomText = '';
   typedText = '';
   randomTextTranslated = '';
@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
+    this.listLanguages = [];
     this.translateBtn = document.getElementById('translatebtn');
     this.getRandomText();
   }
@@ -38,8 +39,11 @@ export class AppComponent implements OnInit {
       });
 
     this.translateService.getLanguages()
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe((response) => {
+        console.log(response.data.languages);
+        response.data.languages.forEach((language) => {
+          this.listLanguages.push({code: language.language});
+        });
       },
         err => {
           console.log(err);
