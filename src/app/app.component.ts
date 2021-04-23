@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { lorem } from 'faker';
-import { freeApiService } from './services/freeapi.service';
-
-import {Languages} from './classes/languages';
-import { GoogletranslateService } from './services/googletranslate.service';
-import { GoogleObj } from './models/solution';
+import { from } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Languages } from './classes/languages';
+import { TranslateService } from './services/translate.service';
+import { QuoteService } from './services/quote-service.service';
+import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 
 @Component({
   selector: 'app-root',
@@ -13,92 +14,113 @@ import { GoogleObj } from './models/solution';
 })
 export class AppComponent implements OnInit {
   private translateBtn: any;
-  constructor(){};
+
+  constructor(private quoteService: QuoteService, private translateService: TranslateService) { };
 
   listLanguages: Languages[];
-
-  ngOnInit(){
-    // this.freeApiService.getComments().subscribe(
-    //   data=>{
-    //     this.listLanguages = data.languages;
-    //   }
-    // );
-    this.translateBtn = document.getElementById('translatebtn');
-  }
-
-//        NOT WORKING API
-
-  // sendTwo() {
-  //   const googleObj: GoogleObj = {
-  //       q: ['hello'],
-  //       target: 'es'
-  //    };
-
-  //     this.translateBtn.disabled = true;
-
-  //     this.google.translate(googleObj).subscribe(
-  //         (res: any) => {
-  //         this.translateBtn.disabled = false;
-  //         console.log(res.data.translations[0].translatedText)
-  //         },
-  //         err => {
-  //           console.log(err);
-  //         }
-  //       );
-  //   }
-
-
-
-    
-  randomText = lorem.sentence();
+  randomText = '';
   typedText = '';
-  translatedText = '';
-
+  randomTextTranslated = '';
+  randomTextLanguage = "ru";
   title = 'translateGame';
 
-  onInput(value: string){
+
+  ngOnInit() {
+    this.translateBtn = document.getElementById('translatebtn');
+    this.getRandomText();
+  }
+
+  getRandomText(): void {
+    this.quoteService.getText()
+      .subscribe((data) => {
+        this.randomText = data["quoteText"];
+        this.translateRandomText();
+      });
+
+    this.translateService.getLanguages()
+      .subscribe((data) => {
+        console.log(data);
+      },
+        err => {
+          console.log(err);
+        });
+  }
+
+  translateRandomText() {
+    this.translateService.translate(this.randomText, this.randomTextLanguage, "en")
+      .subscribe((data) => {
+        this.randomTextTranslated = data["data"]["translations"][0]["translatedText"];
+      },
+        err => {
+          this.randomText = "Никто не может грустить, когда у него есть воздушный шарик.";
+          this.randomTextTranslated = "No one can be sad when they have a balloon.";
+          console.log(err);
+        });
+  }
+
+  onInput(value: string) {
     this.typedText = value;
   }
 
-  compare(randomLetter: string, enteredLetter: string){
-    if(!enteredLetter){
-      return 'pending';
+  compare() {
+    let similarity = this.similarity(this.randomTextTranslated, this.typedText);
+
+    if (similarity > 0.8) {
+      return "correct";
     }
 
-    if(enteredLetter === randomLetter){
-      return 'correct';
+    if (similarity < 0.5) {
+      return 'incorrect';
     }
 
-    return randomLetter === enteredLetter ? 'correct' : 'incorrect';
+    return 'partialy-correct';
 
   }
 
-  exit(){
+  similarity(s1, s2) {
+    var longer = s1;
+    var shorter = s2;
+    if (s1.length < s2.length) {
+      longer = s2;
+      shorter = s1;
+    }
+    var longerLength = longer.length;
+    if (longerLength == 0) {
+      return 1.0;
+    }
+    return (longerLength - this.editDistance(longer, shorter)) / parseFloat(longerLength);
+  }
+
+  private editDistance(s1, s2) {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+
+    var costs = new Array();
+    for (var i = 0; i <= s1.length; i++) {
+      var lastValue = i;
+      for (var j = 0; j <= s2.length; j++) {
+        if (i == 0)
+          costs[j] = j;
+        else {
+          if (j > 0) {
+            var newValue = costs[j - 1];
+            if (s1.charAt(i - 1) != s2.charAt(j - 1))
+              newValue = Math.min(Math.min(newValue, lastValue),
+                costs[j]) + 1;
+            costs[j - 1] = lastValue;
+            lastValue = newValue;
+          }
+        }
+      }
+      if (i > 0)
+        costs[s2.length] = lastValue;
+    }
+    return costs[s2.length];
+  }
+
+  exit() {
     window.location.reload();
   }
 
-
-//         WORKING API
-
-    send(){
-      var data = "source=en&q=";
-      data += this.typedText + "!&target=es";
-      var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
-
-      xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-          console.log(this.responseText);
-        }
-      });
-
-      xhr.open("POST", "https://google-translate1.p.rapidapi.com/language/translate/v2");
-      xhr.setRequestHeader("x-rapidapi-host", "google-translate1.p.rapidapi.com");
-      xhr.setRequestHeader("x-rapidapi-key", "e65f15be4dmshce0042b5b438a1cp1fc179jsnf947a075aee4");
-      // xhr.setRequestHeader("accept-encoding", "application/gzip");
-      xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-      xhr.send(data);
-
-    }
 
 }
