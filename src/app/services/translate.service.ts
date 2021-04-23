@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+//https://rapidapi.com/googlecloud/api/google-translate1
+
   const httpOptions = {
     headers: new HttpHeaders({
       'content-type': 'application/x-www-form-urlencoded',
@@ -22,6 +24,10 @@ export class TranslateService {
     var data = data + "source=" + source + "&";
     data = data + "!&target=" + target;
     return this.http.post("https://google-translate1.p.rapidapi.com/language/translate/v2 ", data, httpOptions);
-  } 
+  }
+  
+  getLanguages(){
+    return this.http.get("https://google-translate1.p.rapidapi.com/language/translate/v2/languages ", httpOptions);
+  }
 
 }
