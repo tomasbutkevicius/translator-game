@@ -1,11 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { lorem } from 'faker';
-import { from } from 'rxjs';
-import { Observable } from 'rxjs';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Language } from './models/language';
 import { TranslateService } from './services/translate.service';
 import { QuoteService } from './services/quote-service.service';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 
 @Component({
   selector: 'app-root',
@@ -15,20 +11,24 @@ import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 export class AppComponent implements OnInit {
   private translateBtn: any;
 
-  constructor(private quoteService: QuoteService, private translateService: TranslateService) { };
+  constructor(private quoteService: QuoteService, private translateService: TranslateService, private changeDetectorRef: ChangeDetectorRef) { };
 
-  listLanguages: Language[];
+  languageList: Language[];
   randomText = '';
   typedText = '';
   randomTextTranslated = '';
-  randomTextLanguage = "ru";
+  randomTextLanguage = "";
   title = 'translateGame';
+  pageLoaded = false;
 
 
   ngOnInit() {
-    this.listLanguages = [];
+    this.languageList = [];
     this.translateBtn = document.getElementById('translatebtn');
+    this.getLanguages();
     this.getRandomText();
+    console.log(this.languageList);
+    this.pageLoaded = true;
   }
 
   getRandomText(): void {
@@ -36,14 +36,43 @@ export class AppComponent implements OnInit {
       .subscribe((data) => {
         this.randomText = data["quoteText"];
         this.translateRandomText();
+        this.changeDetectorRef.detectChanges();
       });
+  }
 
-    this.translateService.getLanguages()
-      .subscribe((response) => {
-        console.log(response.data.languages);
-        response.data.languages.forEach((language) => {
-          this.listLanguages.push({code: language.language});
-        });
+  getLanguages(): void {
+    this.randomTextLanguage = "ru";
+    if (localStorage.getItem("languages")) {
+      this.languageList = JSON.parse(localStorage.getItem("languages"));
+    } else {
+      this.translateService.getLanguages()
+        .subscribe((response) => {
+          console.log("got languages from api");
+          console.log(response.data.languages);
+          response.data.languages.forEach((language) => {
+            this.languageList.push({ code: language.language });
+            localStorage.setItem('languages', JSON.stringify(this.languageList));
+          });
+          this.changeDetectorRef.detectChanges();
+        },
+          err => {
+            console.log(err);
+          });
+    }
+  }
+
+  onLanguageSelect(selectedLanguage) {
+    this.changeLanguageOfRandomText(selectedLanguage);
+    this.randomTextLanguage = selectedLanguage;
+    localStorage.setItem('randomTextLanguage', selectedLanguage);
+    console.log("clicked on change language");
+  }
+
+  changeLanguageOfRandomText(languageCode: string) {
+    this.translateService.translate(this.randomText, this.randomTextLanguage, languageCode)
+      .subscribe((data) => {
+        this.randomText = data["data"]["translations"][0]["translatedText"];
+        this.changeDetectorRef.detectChanges();
       },
         err => {
           console.log(err);
@@ -54,6 +83,7 @@ export class AppComponent implements OnInit {
     this.translateService.translate(this.randomText, this.randomTextLanguage, "en")
       .subscribe((data) => {
         this.randomTextTranslated = data["data"]["translations"][0]["translatedText"];
+        this.changeDetectorRef.detectChanges();
       },
         err => {
           this.randomText = "Никто не может грустить, когда у него есть воздушный шарик.";

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="pageLoaded">
 
   <div class="columns is-centered">
 
@@ -23,6 +23,13 @@
   
  <p> {{randomTextTranslated}} </p>
  <p> {{similarity(randomTextTranslated, typedText)}} </p>
+
+ <select [ngModel]="randomTextLanguage" (ngModelChange)="onLanguageSelect($event)">
+  <option *ngFor="let language of languageList" [value]="language.code">
+    {{language.code}}
+  </option>
+</select>
+
  <!-- <table>
    <tr>
      <th>Id</th>
