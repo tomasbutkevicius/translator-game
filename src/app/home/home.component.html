@@ -1,0 +1,10 @@
+<p>Select language to translate</p>
+<select [ngModel]="selectedLanguage" (ngModelChange)="onLanguageSelect($event)">
+    <option *ngFor="let language of languageList" [value]="language.code">
+      {{language.code}}
+    </option>
+  </select>
+
+<div *ngIf="selectedLanguage">
+    <game-component [selectedLanguage]="selectedLanguage"></game-component>
+</div>

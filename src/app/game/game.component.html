@@ -1,0 +1,37 @@
+<div class="container" *ngIf="pageLoaded">
+
+    <div class="columns is-centered">
+  
+      <div class="box column is-one-third">
+          <h1 class="title has-text-centered">Translate Challange</h1>
+  
+          <p class="has-text-centered" >
+            <span [class]="compare()">{{ randomText }}</span>
+          </p>
+  
+          <div class="field">
+            <input class="input" (input)="onInput($event.target.value)" />
+          </div>
+          <div class="box has-text-centered" id="success" *ngIf="typedText === randomTextTranslated">
+            <h1>Success!</h1>
+          </div>
+          <button class="button" (click)="exit()">Refresh</button>
+      </div>
+        
+    </div>
+    
+   <p> {{randomTextTranslated}} </p>
+   <p> {{similarity(randomTextTranslated, typedText)}} </p>
+
+   <!-- <table>
+     <tr>
+       <th>Id</th>
+       <th>Language</th>
+     </tr>
+  
+     <tr *ngFor = "let lang of listLanguages">
+       <th>{{lang.id}}</th>
+       <th>{{lang.id.language}}</th>
+     </tr>
+   </table> -->
+  </div>
