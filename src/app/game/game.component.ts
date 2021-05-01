@@ -9,7 +9,7 @@ import { QuoteService } from '../services/quote-service.service';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  private translateBtn: any;
+  private showTranslationBtn: any;
 
   constructor(private quoteService: QuoteService, private translateService: TranslateService, private changeDetectorRef: ChangeDetectorRef) { };
 
@@ -18,12 +18,14 @@ export class GameComponent implements OnInit {
   typedText = '';
   randomTextTranslated = '';
   @Input() selectedLanguage: string;
+  @Input() translatorLanguage: string;
   title = 'translateGame';
   pageLoaded = false;
+  showTranslation = false;
 
 
   ngOnInit() {
-    this.translateBtn = document.getElementById('translatebtn');
+    this.showTranslationBtn = document.getElementById('showTranslationButton');
     // this.getLanguages();
     this.getRandomText();
     this.pageLoaded = true;
@@ -53,7 +55,7 @@ export class GameComponent implements OnInit {
   }
 
   private setRandomTextTranslation(text) {
-    this.translateService.translate(text, "ru", "en")
+    this.translateService.translate(text, "ru", this.translatorLanguage)
       .subscribe((data) => {
         this.randomTextTranslated = data["data"]["translations"][0]["translatedText"];
         this.changeDetectorRef.detectChanges();
@@ -67,6 +69,10 @@ export class GameComponent implements OnInit {
 
   onInput(value: string) {
     this.typedText = value;
+  }
+
+  onShowTranslationBtnClick(){
+    this.showTranslation = !this.showTranslation;
   }
 
   compare() {

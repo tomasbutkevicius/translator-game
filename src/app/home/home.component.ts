@@ -9,14 +9,19 @@ export class HomeComponent {
 
     languageList: Language[];
     selectedLanguage: String;
+    translatorLanguage: String;
     
     ngOnInit(){
         this.languageList = [];
         this.selectedLanguage = "ru";
+        this.translatorLanguage = "en";
         this.getLanguages();
     }
 
     getLanguages(): void {
+        if(localStorage.getItem('translatorLanguage')){
+          this.translatorLanguage = localStorage.getItem('translatorLanguage');
+        }
         if(localStorage.getItem('selectedLanguage')){
           this.selectedLanguage = localStorage.getItem('selectedLanguage');
         }
@@ -42,6 +47,12 @@ export class HomeComponent {
         this.selectedLanguage = selectedLanguage;
         localStorage.setItem('selectedLanguage', selectedLanguage);
         console.log("clicked on change language");
+        window.location.reload();
+      }
+
+      onTranslatorLanguageSelect(selectedLanguage){
+        this.translatorLanguage = selectedLanguage;
+        localStorage.setItem('translatorLanguage', selectedLanguage);
         window.location.reload();
       }
 }

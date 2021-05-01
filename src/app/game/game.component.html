@@ -16,11 +16,14 @@
             <h1>Success!</h1>
           </div>
           <button class="button" (click)="exit()">Refresh</button>
+          <button class="button" (click)="onShowTranslationBtnClick()" id="showTranslationButton">Show/hide translation</button>
       </div>
         
     </div>
-    
-   <p> {{randomTextTranslated}} </p>
+    <div *ngIf="showTranslation">
+         <p> {{randomTextTranslated}} </p>
+    </div>
+
    <p> {{similarity(randomTextTranslated, typedText)}} </p>
 
    <!-- <table>

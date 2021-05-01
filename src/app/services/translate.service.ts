@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LanguageResponse } from '../models/languageResponse';
 
 //https://rapidapi.com/googlecloud/api/google-translate1
