@@ -1,11 +1,10 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Language } from '../models/language';
 import { TranslateService } from '../services/translate.service';
-import { Router } from '@angular/router';
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent {
-    constructor(private translateService: TranslateService, private changeDetectorRef: ChangeDetectorRef, private router: Router){};
+    constructor(private translateService: TranslateService){};
 
     languageList: Language[];
     selectedLanguage: String;
