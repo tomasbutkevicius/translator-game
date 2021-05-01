@@ -13,6 +13,15 @@ import { LanguageResponse } from '../models/languageResponse';
     })
   };
 
+  const httpAudioOptions = {
+    headers: new HttpHeaders({
+      'x-rapidapi-key': 'e65f15be4dmshce0042b5b438a1cp1fc179jsnf947a075aee4',
+      'x-rapidapi-host':  'google-translate1.p.rapidapi.com',
+      "useQueryString": 'true'
+    })
+  };
+
+
 @Injectable({
   providedIn: 'root'
 })

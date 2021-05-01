@@ -1,16 +1,26 @@
-<p>Select language to translate</p>
-<select [ngModel]="selectedLanguage" (ngModelChange)="onLanguageSelect($event)">
-  <option *ngFor="let language of languageList" [value]="language.code">
-    {{language.code}}
-  </option>
-</select>
-<p>Select translation language</p>
-<select [ngModel]="translatorLanguage" (ngModelChange)="onTranslatorLanguageSelect($event)">
-  <option *ngFor="let language of languageList" [value]="language.code">
-    {{language.code}}
-  </option>
-</select>
+<div class="container language-selection">
+  <div class="row">
+    <div class="col-sm">
+      <p>Select language to translate</p>
+      <select class="custom-select" [ngModel]="selectedLanguage" (ngModelChange)="onLanguageSelect($event)">
+        <option *ngFor="let language of languageList" [value]="language.code">
+          {{language.code}}
+        </option>
+      </select>
+    </div>
+    <div class="col-sm">
+      <p>Select translation language</p>
+      <select class="custom-select" [ngModel]="translatorLanguage" (ngModelChange)="onTranslatorLanguageSelect($event)">
+        <option *ngFor="let language of languageList" [value]="language.code">
+          {{language.code}}
+        </option>
+      </select>
+    </div>
+  </div>
 
-<div *ngIf="selectedLanguage && translatorLanguage">
+</div>
+
+
+<div *ngIf="selectedLanguage && translatorLanguage" class="container">
   <game-component [selectedLanguage]="selectedLanguage" [translatorLanguage]="translatorLanguage"></game-component>
 </div>

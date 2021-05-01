@@ -1,40 +1,44 @@
 <div class="container" *ngIf="pageLoaded">
 
-    <div class="columns is-centered">
-  
-      <div class="box column is-one-third">
-          <h1 class="title has-text-centered">Translate Challange</h1>
-  
-          <p class="has-text-centered" >
-            <span [class]="compare()">{{ randomText }}</span>
-          </p>
-  
-          <div class="field">
-            <input class="input" (input)="onInput($event.target.value)" />
-          </div>
-          <div class="box has-text-centered" id="success" *ngIf="typedText === randomTextTranslated">
-            <h1>Success!</h1>
-          </div>
-          <button class="button" (click)="exit()">Refresh</button>
-          <button class="button" (click)="onShowTranslationBtnClick()" id="showTranslationButton">Show/hide translation</button>
+  <div class="columns is-centered">
+
+    <div class="box column is-one-third">
+      <p class="has-text-centered">
+        <span [class]="compare()" *ngFor="let word of randomText.split(' '); let i = index">
+          {{ word }}
+        </span>
+      </p>
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Translate:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea" (input)="onInput($event.target.value)"></textarea>
       </div>
-        
-    </div>
-    <div *ngIf="showTranslation">
-         <p> {{randomTextTranslated}} </p>
+      <div class="box has-text-centered" id="success" *ngIf="challangeComplete">
+        <h1>Success!</h1>
+      </div>
+      <div class="container buttons">
+        <div class="row">
+          <!-- panel-footer -->
+          <div class="col-6 text-left">
+            <div class="previous">
+              <button type="button" class="btn btn-dark" (click)="exit()">Refresh</button>
+            </div>
+          </div>
+          <div class="col-6 text-right">
+            <div class="next">
+              <button type="button" class="btn btn-info" (click)="onShowTranslationBtnClick()">Help</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-   <p> {{similarity(randomTextTranslated, typedText)}} </p>
-
-   <!-- <table>
-     <tr>
-       <th>Id</th>
-       <th>Language</th>
-     </tr>
-  
-     <tr *ngFor = "let lang of listLanguages">
-       <th>{{lang.id}}</th>
-       <th>{{lang.id.language}}</th>
-     </tr>
-   </table> -->
   </div>
+  <div *ngIf="showTranslation">
+    <p> {{randomTextTranslated}} </p>
+  </div>
+
+  <p> {{similarity(randomTextTranslated, typedText)}} </p>
+</div>

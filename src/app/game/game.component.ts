@@ -22,6 +22,7 @@ export class GameComponent implements OnInit {
   title = 'translateGame';
   pageLoaded = false;
   showTranslation = false;
+  challangeComplete = false;
 
 
   ngOnInit() {
@@ -79,8 +80,13 @@ export class GameComponent implements OnInit {
     let similarity = this.similarity(this.randomTextTranslated, this.typedText);
 
     if (similarity > 0.8) {
+      if(this.randomTextTranslated.length !== 0 && this.typedText.length !== 0){
+        this.challangeComplete = true;
+      }
       return "correct";
     }
+    
+    this.challangeComplete = false;
 
     if (similarity < 0.5) {
       return 'incorrect';
