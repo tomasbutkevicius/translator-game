@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LanguageResponse } from '../models/languageResponse';
 
 //https://rapidapi.com/googlecloud/api/google-translate1
 
@@ -27,7 +27,7 @@ export class TranslateService {
   }
   
   getLanguages(){
-    return this.http.get("https://google-translate1.p.rapidapi.com/language/translate/v2/languages ", httpOptions);
+    return this.http.get<LanguageResponse>("https://google-translate1.p.rapidapi.com/language/translate/v2/languages ", httpOptions);
   }
 
 }
