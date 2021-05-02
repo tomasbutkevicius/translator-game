@@ -56,6 +56,9 @@ export class GameComponent implements OnInit {
   }
 
   private setRandomTextTranslation(text) {
+    if(this.translatorLanguage === "ru"){
+      this.randomTextTranslated = text;
+    } else {
     this.translateService.translate(text, "ru", this.translatorLanguage)
       .subscribe((data) => {
         this.randomTextTranslated = data["data"]["translations"][0]["translatedText"];
@@ -63,9 +66,10 @@ export class GameComponent implements OnInit {
       },
         err => {
           this.randomText = "Никто не может грустить, когда у него есть воздушный шарик.";
-          this.randomTextTranslated = "No one can be sad when they have a balloon.";
+          this.randomTextTranslated = "No one can be sad when they have a balloon. (Error occurred. Make sure server is running)";
           console.log(err);
         });
+    }
   }
 
   onInput(value: string) {
