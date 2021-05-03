@@ -83,7 +83,7 @@ export class GameComponent implements OnInit {
   compare() {
     let similarity = this.similarity(this.randomTextTranslated, this.typedText);
 
-    if (similarity > 0.8) {
+    if (similarity > 80) {
       if(this.randomTextTranslated.length !== 0 && this.typedText.length !== 0){
         this.challangeComplete = true;
       }
@@ -92,7 +92,7 @@ export class GameComponent implements OnInit {
     
     this.challangeComplete = false;
 
-    if (similarity < 0.5) {
+    if (similarity < 50) {
       return 'incorrect';
     }
 
@@ -111,7 +111,7 @@ export class GameComponent implements OnInit {
     if (longerLength == 0) {
       return 1.0;
     }
-    return (longerLength - this.editDistance(longer, shorter)) / parseFloat(longerLength);
+    return Math.floor((longerLength - this.editDistance(longer, shorter)) / parseFloat(longerLength) * 100);
   }
 
   private editDistance(s1, s2) {
