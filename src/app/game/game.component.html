@@ -1,10 +1,9 @@
 <div class="container" *ngIf="pageLoaded">
 
-  <div class="columns is-centered">
-
-    <div class="box column is-one-third">
-      <p class="has-text-centered">
-        <span [class]="compare()" *ngFor="let word of randomText.split(' '); let i = index">
+  <div>
+    <div>
+      <p class="givenText text-center" [class]="compare()">
+        <span *ngFor="let word of randomText.split(' '); let i = index">
           {{ word }}
         </span>
       </p>
@@ -22,7 +21,7 @@
         <div class="row">
           <div class="col-6 text-left">
             <div class="previous">
-              <button type="button" class="btn btn-dark" (click)="exit()">Refresh</button>
+              <button type="button" class="btn btn-dark" (click)="exit()">New</button>
             </div>
           </div>
           <div class="col-6 text-right">
@@ -35,9 +34,12 @@
     </div>
 
   </div>
-  <div *ngIf="showTranslation">
+  
+  <p class="text-center accuracy">Accuracy: {{similarity(randomTextTranslated, typedText)}} %</p>
+
+  <div *ngIf="showTranslation" class="translation text-center">
     <p> {{randomTextTranslated}} </p>
   </div>
 
-  <p> Accuracy: {{similarity(randomTextTranslated, typedText)}} %</p>
+
 </div>

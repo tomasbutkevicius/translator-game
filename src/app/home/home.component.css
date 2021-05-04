@@ -1,3 +1,7 @@
 .language-selection{
     margin: auto 0 50px;
+    background-color: #2e2d2d;
+    color: white;
+    padding: 20px;
+    border-radius: 25px;
 }
