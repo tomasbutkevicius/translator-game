@@ -22,6 +22,7 @@ export class GameComponent implements OnInit {
   title = 'translateGame';
   pageLoaded = false;
   showTranslation = false;
+  challangeComplete = false;
 
 
   ngOnInit() {
@@ -55,6 +56,9 @@ export class GameComponent implements OnInit {
   }
 
   private setRandomTextTranslation(text) {
+    if(this.translatorLanguage === "ru"){
+      this.randomTextTranslated = text;
+    } else {
     this.translateService.translate(text, "ru", this.translatorLanguage)
       .subscribe((data) => {
         this.randomTextTranslated = data["data"]["translations"][0]["translatedText"];
@@ -62,9 +66,10 @@ export class GameComponent implements OnInit {
       },
         err => {
           this.randomText = "Никто не может грустить, когда у него есть воздушный шарик.";
-          this.randomTextTranslated = "No one can be sad when they have a balloon.";
+          this.randomTextTranslated = "No one can be sad when they have a balloon. (Error occurred. Make sure server is running)";
           console.log(err);
         });
+    }
   }
 
   onInput(value: string) {
@@ -78,11 +83,16 @@ export class GameComponent implements OnInit {
   compare() {
     let similarity = this.similarity(this.randomTextTranslated, this.typedText);
 
-    if (similarity > 0.8) {
+    if (similarity > 80) {
+      if(this.randomTextTranslated.length !== 0 && this.typedText.length !== 0){
+        this.challangeComplete = true;
+      }
       return "correct";
     }
+    
+    this.challangeComplete = false;
 
-    if (similarity < 0.5) {
+    if (similarity < 50) {
       return 'incorrect';
     }
 
@@ -101,7 +111,7 @@ export class GameComponent implements OnInit {
     if (longerLength == 0) {
       return 1.0;
     }
-    return (longerLength - this.editDistance(longer, shorter)) / parseFloat(longerLength);
+    return Math.floor((longerLength - this.editDistance(longer, shorter)) / parseFloat(longerLength) * 100);
   }
 
   private editDistance(s1, s2) {

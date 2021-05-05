@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class QuoteService {
 
   constructor(  private http: HttpClient ) { }
 
-  // private quoteApiUrl = "http://api.forismatic.com/api/1.0/?method=getQuote&lang=en";
-  private quoteApiUrl = environment.api + "/getQuoteRu";
-
   getText(){
     let headers = new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
-      return this.http.get<String>(this.quoteApiUrl, {headers: headers});
+      return this.http.get<String>("http://127.0.0.1:3000/quote");
   }
 }
