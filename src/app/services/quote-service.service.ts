@@ -12,6 +12,6 @@ export class QuoteService {
   getText(){
     let headers = new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
-      return this.http.get<String>("http://127.0.0.1:3000/quote");
+      return this.http.get("http://127.0.0.1:3000/quote");
   }
 }

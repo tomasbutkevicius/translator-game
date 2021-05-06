@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit, Input } from '@angular/core';
-import { Language } from '../models/language';
 import { TranslateService } from '../services/translate.service';
 import { QuoteService } from '../services/quote-service.service';
 
@@ -9,11 +8,9 @@ import { QuoteService } from '../services/quote-service.service';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  private showTranslationBtn: any;
 
   constructor(private quoteService: QuoteService, private translateService: TranslateService, private changeDetectorRef: ChangeDetectorRef) { };
 
-  languageList: Language[];
   randomText = '';
   typedText = '';
   randomTextTranslated = '';
@@ -26,8 +23,6 @@ export class GameComponent implements OnInit {
 
 
   ngOnInit() {
-    this.showTranslationBtn = document.getElementById('showTranslationButton');
-    // this.getLanguages();
     this.getRandomText();
     this.pageLoaded = true;
   }

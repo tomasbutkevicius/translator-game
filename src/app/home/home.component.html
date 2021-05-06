@@ -1,6 +1,6 @@
 <div class="container language-selection">
   <div class="row">
-    <div class="col-sm">
+    <div class="col-md">
       <p>Select language to translate</p>
       <select class="custom-select" [ngModel]="selectedLanguage" (ngModelChange)="onLanguageSelect($event)">
         <option *ngFor="let language of languageList" [value]="language.code">
@@ -8,7 +8,7 @@
         </option>
       </select>
     </div>
-    <div class="col-sm">
+    <div class="col-md">
       <p>Select translation language</p>
       <select class="custom-select" [ngModel]="translatorLanguage" (ngModelChange)="onTranslatorLanguageSelect($event)">
         <option *ngFor="let language of languageList" [value]="language.code">
