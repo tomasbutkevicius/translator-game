@@ -33,6 +33,9 @@ export class GameComponent implements OnInit {
         this.setRandomText(data["quoteText"], "ru", this.selectedLanguage);
         this.setRandomTextTranslation(data["quoteText"]);
         this.changeDetectorRef.detectChanges();
+      }, err => {
+        this.randomText = "(Error occurred. Make sure server is running)";
+        console.log(err);
       });
   }
 
@@ -46,6 +49,7 @@ export class GameComponent implements OnInit {
       },
         err => {
           console.log(err);
+          this.randomText = "(Error occurred. Make sure server is running)";
         });
     }
   }
