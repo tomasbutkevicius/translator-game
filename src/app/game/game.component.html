@@ -1,0 +1,45 @@
+<div class="container" *ngIf="pageLoaded">
+
+  <div>
+    <div>
+      <p class="givenText text-center" [class]="compare()">
+        <span *ngFor="let word of randomText.split(' '); let i = index">
+          {{ word }}
+        </span>
+      </p>
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Translate:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea" (input)="onInput($event.target.value)"></textarea>
+      </div>
+      <div class="box has-text-centered" id="success" *ngIf="challangeComplete">
+        <h1>Success!</h1>
+      </div>
+      <div class="container buttons">
+        <div class="row">
+          <div class="col-6 text-left">
+            <div class="previous">
+              <button type="button" class="btn btn-dark" (click)="exit()">New</button>
+            </div>
+          </div>
+          <div class="col-6 text-right">
+            <div class="next">
+              <button type="button" class="btn btn-info" (click)="onShowTranslationBtnClick()">Help</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+  <p class="text-center accuracy">Accuracy: {{similarity(randomTextTranslated, typedText)}} %</p>
+
+  <div *ngIf="showTranslation" class="translation text-center">
+    <p> {{randomTextTranslated}} </p>
+  </div>
+
+
+</div>

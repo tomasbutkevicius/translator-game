@@ -1,0 +1,45 @@
+.pending { 
+    color: gray;
+}
+
+.correct {
+    background-color: rgba(0, 255, 0, 0.342);
+    font-weight: bold;
+}
+
+.partialy-correct {
+    background-color: rgba(255, 166, 0, 0.562);
+    font-weight: bold;
+}
+
+.incorrect {
+    background-color: rgba(255, 0, 0, 0.288);
+    font-weight: bold;
+}
+
+#success{
+    text-align: center;
+    color: green;
+    font-weight: bold;
+    margin: 20px;
+    padding: 20px;
+}
+
+.buttons{
+    margin: 20px;
+}
+
+.givenText{
+    margin: auto 0 50px;
+    padding: 20px;
+    border-radius: 25px;
+    border: 2px solid #2e2d2d;
+}
+
+.translation{
+    margin: auto 0 50px;
+    background-color: #2e2d2d;
+    color: white;
+    padding: 20px;
+    border-radius: 25px;
+}

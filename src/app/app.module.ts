@@ -1,19 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { freeApiService } from './services/freeapi.service';
+import { appRoutingModule } from './app.routing';
+
+import { AppComponent } from './app.component';
+import { GameComponent } from './game';
+import { HomeComponent } from './home';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GameComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    appRoutingModule
   ],
-  providers: [freeApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
